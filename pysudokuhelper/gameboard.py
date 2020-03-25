@@ -19,6 +19,12 @@ class GameBoard():
     """
 
     def __init__(self):
+        """
+        The constructor for GameBoard class.
+
+        Parameters:
+            * None
+        """
         self.cells=[]
         x1range=range(1,10)
         y1range=range(-1,-10,-1)
