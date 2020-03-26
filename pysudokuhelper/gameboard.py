@@ -10,12 +10,6 @@ class GameBoard():
         rows (dictionary): A dictionary with 9 keys corresponding to the integers between 1-9.  The value of each key is a list with references to the SudokuSquares in that row of the puzzle.
         columns (dictionary): A dictionary with 9 keys corresponding to the integers between 1-9.  The value of each key is a list with references to the SudokuSquares in that column of the puzzle. 
         blocks (dictionary): A dictionary with 9 keys corresponding to the integers between 1-9.  The value of each key is a list with references to the SudokuSquares in that block of the puzzle.
-
-    Notes:
-        * The SudokuSquares referenced in .cells are created starting with the top left square (index=0), then moving horizontally until the top row is filled (index=8).  Then the second row is built, startin with the left square and moving to the right.  This pattern is followed until all rows have been filled.  The bottom right square will be created last (index=80).
-        * The columns in a gameboard are numbered 1 to 9 moving from left to right. The .xpos attribute of cells in the first column (.column[1]) will be 1, and so on.
-        * the rows in a gameboard are numbered -1 to -9 moving from top to bottom.  The .ypos attribute of cells in the top row (.rows[1]) will be -1, and so on.  Consider the gameboard to exist in the bottom right quadrant of a cartesian coordinate grid.
-        * the blocks in a gameboard represent the 3x3 blocks that make up the 9x9 gameboard.  The squares in .blocks[1] are in the top left of the gameboard; the squares in .blocks[3] are in the top right of the gameboard, and the squares in .blocks[9] are in the bottom right of the gameboard. 
     """
 
     def __init__(self):
@@ -24,6 +18,12 @@ class GameBoard():
 
         Parameters:
             * None
+
+        Notes:
+            * The SudokuSquares referenced in .cells are created starting with the top left square (index=0), then moving horizontally until the top row is filled (index=8).  Then the second row is built, startin with the left square and moving to the right.  This pattern is followed until all rows have been filled.  The bottom right square will be created last (index=80).
+            * The columns in a gameboard are numbered 1 to 9 moving from left to right. The .xpos attribute of cells in the first column (.column[1]) will be 1, and so on.
+            * the rows in a gameboard are numbered -1 to -9 moving from top to bottom.  The .ypos attribute of cells in the top row (.rows[1]) will be -1, and so on.  Consider the gameboard to exist in the bottom right quadrant of a cartesian coordinate grid.
+            * the blocks in a gameboard represent the 3x3 blocks that make up the 9x9 gameboard.  The squares in .blocks[1] are in the top left of the gameboard; the squares in .blocks[3] are in the top right of the gameboard, and the squares in .blocks[9] are in the bottom right of the gameboard.     
         """
         self.cells=[]
         x1range=range(1,10)
@@ -95,7 +95,6 @@ class GameBoard():
                 if x.ypos in [-7,-8,-9]:
                     self.blocks[9].append(x)
 
-#    def __update_possible_values__(self):
     def _updateallpossiblevalues(self):
         dummylist=[]
         for x in self.rows:
