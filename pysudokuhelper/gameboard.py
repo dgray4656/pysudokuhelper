@@ -171,15 +171,38 @@ class GameBoard():
         self._updateallpossiblevalues()
 
     def setcellvalue(self, cellindex, cellvalue):
+        """
+        The function to set the .value property of a specific SudokuSquare within the game board.  Also makes necessary changes to the .possible_values property of all other SudokuSquares within the game board.
+
+        Parameters: 
+            * cellindex (int): index value between 0-80 to identify the member of .cells list to be updated.
+            * callvalue (int): integer between 1-9 to be set to the .value property of the cell identified by cellindex.
+
+        Returns: None.
+        """
         self.cells[cellindex].setvalue(cellvalue)
         self._updateallpossiblevalues()
 
     def setcellvalues(self, lindexvalues):
+        """
+        The function to populate values of multiple SudokuSquares within a game board.
+
+        Parameters:
+            * lindexvalues (list): a list containing a set of 2-element lists.  item[0] within each member list is used as the index of the SudokuSquare to be set, and item[1] within that member list provides the value to be set.
+
+        Returns: None.
+        """
         for x in lindexvalues:
             self.cells[x[0]].setvalue(x[1])
         self._updateallpossiblevalues()
 
     def displaycells(self):
+        """
+        The function to display the current details of each SudokuSquare in the .cells property of the game board.  If the SudokuSquare has a value set, the output is .cellindex, .xpos, .ypos, .value.  Otherwise, the output is .cellindex, .xpos, .ypos, .possible_values.
+
+        Parameters: None.
+        Returns: None.
+        """
         for x in self.cells:
             if x.value is not None:
                 print(x.cellindex," |",x.xpos,x.ypos,x.value)
@@ -187,6 +210,13 @@ class GameBoard():
                 print(x.cellindex," |",x.xpos,x.ypos,x.possible_values)
 
     def countcellsforautoset(self):
+        """
+        The function to count how many SudokuSquares in a game board with a value set to 'None' have only a single member of .possible_values.
+
+        Parameters: None.
+        Returns:
+            * integer representing the number of SudokuSquares within the game board with a value of 'None' and a single element in the .possible_values list.
+        """
         counter = 0
         for x in self.cells:
             if x.value is None:
@@ -195,6 +225,12 @@ class GameBoard():
         return counter
 
     def autosetcellvalues(self):
+        """
+        The function to identify every SudokuSquare within the game board with .value set to 'None' and a single value in the .possible_values list, and to set .value to the value in .possible_values.  Also goes through all cells in the game board and updates their .possible_values lists.
+
+        Parameters: None.
+        Returns: None. 
+        """
         for x in self.cells:
             if x.value is None:
                 if len(x.possible_values)==1:
@@ -202,6 +238,12 @@ class GameBoard():
                     self._updateallpossiblevalues()
 
     def updatecellvalues(self):
+        """
+        The function to set the value of SudokuSquares with a value of 'None' and only 1 value in .possible_values until there are no more SudokuSquares with a value of 'None' and only 1 value in .possible_values remaining.
+
+        Parameters: None.
+        Returns: None.
+        """
         while self.countcellsforautoset():
             self.autosetcellvalues()
 
