@@ -10,15 +10,21 @@ class GameBoard():
         rows (dictionary): A dictionary with 9 keys corresponding to the integers between 1-9.  The value of each key is a list with references to the SudokuSquares in that row of the puzzle.
         columns (dictionary): A dictionary with 9 keys corresponding to the integers between 1-9.  The value of each key is a list with references to the SudokuSquares in that column of the puzzle. 
         blocks (dictionary): A dictionary with 9 keys corresponding to the integers between 1-9.  The value of each key is a list with references to the SudokuSquares in that block of the puzzle.
-
-    Notes:
-        * The SudokuSquares referenced in .cells are created starting with the top left square (index=0), then moving horizontally until the top row is filled (index=8).  Then the second row is built, startin with the left square and moving to the right.  This pattern is followed until all rows have been filled.  The bottom right square will be created last (index=80).
-        * The columns in a gameboard are numbered 1 to 9 moving from left to right. The .xpos attribute of cells in the first column (.column[1]) will be 1, and so on.
-        * the rows in a gameboard are numbered -1 to -9 moving from top to bottom.  The .ypos attribute of cells in the top row (.rows[1]) will be -1, and so on.  Consider the gameboard to exist in the bottom right quadrant of a cartesian coordinate grid.
-        * the blocks in a gameboard represent the 3x3 blocks that make up the 9x9 gameboard.  The squares in .blocks[1] are in the top left of the gameboard; the squares in .blocks[3] are in the top right of the gameboard, and the squares in .blocks[9] are in the bottom right of the gameboard. 
     """
 
     def __init__(self):
+        """
+        The constructor for GameBoard class.
+
+        Parameters:
+            * None
+
+        Notes:
+            * The SudokuSquares referenced in .cells are created starting with the top left square (index=0), then moving horizontally until the top row is filled (index=8).  Then the second row is built, startin with the left square and moving to the right.  This pattern is followed until all rows have been filled.  The bottom right square will be created last (index=80).
+            * The columns in a gameboard are numbered 1 to 9 moving from left to right. The .xpos attribute of cells in the first column (.column[1]) will be 1, and so on.
+            * the rows in a gameboard are numbered -1 to -9 moving from top to bottom.  The .ypos attribute of cells in the top row (.rows[1]) will be -1, and so on.  Consider the gameboard to exist in the bottom right quadrant of a cartesian coordinate grid.
+            * the blocks in a gameboard represent the 3x3 blocks that make up the 9x9 gameboard.  The squares in .blocks[1] are in the top left of the gameboard; the squares in .blocks[3] are in the top right of the gameboard, and the squares in .blocks[9] are in the bottom right of the gameboard.     
+        """
         self.cells=[]
         x1range=range(1,10)
         y1range=range(-1,-10,-1)
@@ -89,7 +95,6 @@ class GameBoard():
                 if x.ypos in [-7,-8,-9]:
                     self.blocks[9].append(x)
 
-#    def __update_possible_values__(self):
     def _updateallpossiblevalues(self):
         dummylist=[]
         for x in self.rows:
@@ -166,15 +171,38 @@ class GameBoard():
         self._updateallpossiblevalues()
 
     def setcellvalue(self, cellindex, cellvalue):
+        """
+        The function to set the .value property of a specific SudokuSquare within the game board.  Also makes necessary changes to the .possible_values property of all other SudokuSquares within the game board.
+
+        Parameters: 
+            * cellindex (int): index value between 0-80 to identify the member of .cells list to be updated.
+            * callvalue (int): integer between 1-9 to be set to the .value property of the cell identified by cellindex.
+
+        Returns: None.
+        """
         self.cells[cellindex].setvalue(cellvalue)
         self._updateallpossiblevalues()
 
     def setcellvalues(self, lindexvalues):
+        """
+        The function to populate values of multiple SudokuSquares within a game board.
+
+        Parameters:
+            * lindexvalues (list): a list containing a set of 2-element lists.  item[0] within each member list is used as the index of the SudokuSquare to be set, and item[1] within that member list provides the value to be set.
+
+        Returns: None.
+        """
         for x in lindexvalues:
             self.cells[x[0]].setvalue(x[1])
         self._updateallpossiblevalues()
 
     def displaycells(self):
+        """
+        The function to display the current details of each SudokuSquare in the .cells property of the game board.  If the SudokuSquare has a value set, the output is .cellindex, .xpos, .ypos, .value.  Otherwise, the output is .cellindex, .xpos, .ypos, .possible_values.
+
+        Parameters: None.
+        Returns: None.
+        """
         for x in self.cells:
             if x.value is not None:
                 print(x.cellindex," |",x.xpos,x.ypos,x.value)
@@ -182,6 +210,13 @@ class GameBoard():
                 print(x.cellindex," |",x.xpos,x.ypos,x.possible_values)
 
     def countcellsforautoset(self):
+        """
+        The function to count how many SudokuSquares in a game board with a value set to 'None' have only a single member of .possible_values.
+
+        Parameters: None.
+        Returns:
+            * integer representing the number of SudokuSquares within the game board with a value of 'None' and a single element in the .possible_values list.
+        """
         counter = 0
         for x in self.cells:
             if x.value is None:
@@ -190,6 +225,12 @@ class GameBoard():
         return counter
 
     def autosetcellvalues(self):
+        """
+        The function to identify every SudokuSquare within the game board with .value set to 'None' and a single value in the .possible_values list, and to set .value to the value in .possible_values.  Also goes through all cells in the game board and updates their .possible_values lists.
+
+        Parameters: None.
+        Returns: None. 
+        """
         for x in self.cells:
             if x.value is None:
                 if len(x.possible_values)==1:
@@ -197,20 +238,44 @@ class GameBoard():
                     self._updateallpossiblevalues()
 
     def updatecellvalues(self):
+        """
+        The function to set the value of SudokuSquares with a value of 'None' and only 1 value in .possible_values until there are no more SudokuSquares with a value of 'None' and only 1 value in .possible_values remaining.
+
+        Parameters: None.
+        Returns: None.
+        """
         while self.countcellsforautoset():
             self.autosetcellvalues()
 
     def processnakedtwins(self):
+        """
+        The function to search for pairs of SudokuSquares within each row, column, or block that have the exact same (2) .possible_values (aka 'naked twins').  If found, remove these (2) .possible_values from each other SudokuSquare within the same row, column, or block.
+
+        Parameters: None.
+        Returns: None.
+        """
         self._processnakedtwins(self.rows)
         self._processnakedtwins(self.columns)
         self._processnakedtwins(self.blocks)
 
     def setcellswhenonlypossiblevalue(self):
+        """
+        The function to identify when a given value can only be placed in a single SudokuSquare within a given row, colum, or block, and to assign that value to the .value field of that SudokuSquare.
+
+        Parameters: None.
+        Returns: None.
+        """
         self._setonlypossiblevalues(self.rows)
         self._setonlypossiblevalues(self.columns)
         self._setonlypossiblevalues(self.blocks)
 
     def clearcellpossbasedonblockposs(self):
+        """
+        The function to search each block for cases where a given possible_value can only be assigned to SudokuSquares within a given row or column.  In this situation, remove that possible_value from the .possible_values list of each SudokuSquare within that row or column that does NOT fall within the block.
+
+        Parameters: None.
+        Returns: None.
+        """
         for x in self.blocks:
             availablevalues=[1,2,3,4,5,6,7,8,9]
             tempdict={}
@@ -239,6 +304,12 @@ class GameBoard():
                             self.cells[sq.cellindex].clearpossible(k)         
 
     def countsolvedcells(self):
+        """
+        The function to return the number of SudokuSquares within the game board that have the .value property set to a numeric value, and not set to None.
+
+        Parameters: None.
+        Returns: None.
+        """
         counter = 0
         for x in self.cells:
             if x.value is not None:
