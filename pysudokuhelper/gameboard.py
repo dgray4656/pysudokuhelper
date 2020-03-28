@@ -315,3 +315,28 @@ class GameBoard():
             if x.value is not None:
                 counter+=1
         return counter
+
+    def gdisplay(self):
+        """
+        The function to display the current status of the game board, displaying the value of each SudokuSquare in a 9x9 grid.
+
+        Parameters: None.
+        Returns: None.
+        """
+        ss="+"
+        for x in range(1,10):
+            ss+="-"*8 + "+"
+
+        bss="+"
+        for x in range(1,10):
+            bss+="="*8 + "+"
+
+        print(bss)
+        for y in self.rows:
+            print(f"| {str(self.rows[y][0].value):^6} | {str(self.rows[y][1].value):^6} | {str(self.rows[y][2].value):^6} | {str(self.rows[y][3].value):^6} | {str(self.rows[y][4].value):^6} | {str(self.rows[y][5].value):^6} | {str(self.rows[y][6].value):^6} | {str(self.rows[y][7].value):^6} | {str(self.rows[y][8].value):^6} |")
+            if not y % 3:
+                print(bss)
+            else:
+                print(ss)
+
+
