@@ -248,16 +248,34 @@ class GameBoard():
             self.autosetcellvalues()
 
     def processnakedtwins(self):
+        """
+        The function to search for pairs of SudokuSquares within each row, column, or block that have the exact same (2) .possible_values (aka 'naked twins').  If found, remove these (2) .possible_values from each other SudokuSquare within the same row, column, or block.
+
+        Parameters: None.
+        Returns: None.
+        """
         self._processnakedtwins(self.rows)
         self._processnakedtwins(self.columns)
         self._processnakedtwins(self.blocks)
 
     def setcellswhenonlypossiblevalue(self):
+        """
+        The function to identify when a given value can only be placed in a single SudokuSquare within a given row, colum, or block, and to assign that value to the .value field of that SudokuSquare.
+
+        Parameters: None.
+        Returns: None.
+        """
         self._setonlypossiblevalues(self.rows)
         self._setonlypossiblevalues(self.columns)
         self._setonlypossiblevalues(self.blocks)
 
     def clearcellpossbasedonblockposs(self):
+        """
+        The function to search each block for cases where a given possible_value can only be assigned to SudokuSquares within a given row or column.  In this situation, remove that possible_value from the .possible_values list of each SudokuSquare within that row or column that does NOT fall within the block.
+
+        Parameters: None.
+        Returns: None.
+        """
         for x in self.blocks:
             availablevalues=[1,2,3,4,5,6,7,8,9]
             tempdict={}
@@ -286,6 +304,12 @@ class GameBoard():
                             self.cells[sq.cellindex].clearpossible(k)         
 
     def countsolvedcells(self):
+        """
+        The function to return the number of SudokuSquares within the game board that have the .value property set to a numeric value, and not set to None.
+
+        Parameters: None.
+        Returns: None.
+        """
         counter = 0
         for x in self.cells:
             if x.value is not None:
