@@ -1,5 +1,5 @@
 
-import sudokusquare
+from .sudokusquare import SudokuSquare
 
 class GameBoard():
     """
@@ -30,7 +30,7 @@ class GameBoard():
         y1range=range(-1,-10,-1)
         for y in y1range:
             for x in x1range:
-                self.cells.append(sudokusquare.SudokuSquare(initx=x,inity=y))
+                self.cells.append(SudokuSquare(initx=x,inity=y))
 
         self.rows={1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[]}
         self.columns={1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[]}
@@ -325,15 +325,15 @@ class GameBoard():
         """
         ss="+"
         for x in range(1,10):
-            ss+="-"*8 + "+"
+            ss+="-"*10 + "+"
 
         bss="+"
         for x in range(1,10):
-            bss+="="*8 + "+"
+            bss+="="*10 + "+"
 
         print(bss)
         for y in self.rows:
-            print(f"| {str(self.rows[y][0].value):^6} | {str(self.rows[y][1].value):^6} | {str(self.rows[y][2].value):^6} | {str(self.rows[y][3].value):^6} | {str(self.rows[y][4].value):^6} | {str(self.rows[y][5].value):^6} | {str(self.rows[y][6].value):^6} | {str(self.rows[y][7].value):^6} | {str(self.rows[y][8].value):^6} |")
+            print(f"|{self.rows[y][0].getstate():^10}|{self.rows[y][1].getstate():^10}|{self.rows[y][2].getstate():^10}|{self.rows[y][3].getstate():^10}|{self.rows[y][4].getstate():^10}|{self.rows[y][5].getstate():^10}|{self.rows[y][6].getstate():^10}|{self.rows[y][7].getstate():^10}|{self.rows[y][8].getstate():^10}|")
             if not y % 3:
                 print(bss)
             else:

@@ -7,7 +7,7 @@ requires=[]
 
 setuptools.setup(
     name="pysudokuhelper",
-    version="0.0.1",
+    version="0.0.3",
     author="David E. Gray",
     author_email="dgray4656@yahoo.com",
     description="Python package to help solve sudoku puzzles",
