@@ -14,3 +14,20 @@ This is an educational project undertaken to:
 * gain experience with git
 * explore python package creation and distribution
 
+## Using pySudokuHelper
+
+To use pySudokuHelper, simply import the package as follows:
+
+    import pysudokuhelper
+
+Then, to create a gameboard use the following command:
+
+    myboard=pysudokuhelper.GameBoard()
+
+This will create a blank grid of 81 squares.  You can populate the known values of the grid one grid at a time:
+
+    myboard.setcellvalue(cellindex, value)
+
+or using a list of \[cellindex, value\] pairs:
+
+    myboard.setcellvalues(lindexvalues)

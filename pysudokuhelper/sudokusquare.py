@@ -47,7 +47,7 @@ class SudokuSquare():
         Parameters: 
             inputval (int): The numeric value to store in the square's .value attribute.  If the inputval is not between 1 and 9 (inclusive), the function does nothing.
 
-        Returns: nothing
+        Returns: Nothing.
         """
         if inputval>0 and inputval<10:
             self.value=inputval
@@ -57,8 +57,8 @@ class SudokuSquare():
         """
         The function to set the value of the SudokuSquare back to 'None'.
 
-        Parameters: none
-        Returns: nothing
+        Parameters: None.
+        Returns: Nothing.
         """
         self.value=None
         self.possible_values=[1,2,3,4,5,6,7,8,9]
@@ -69,7 +69,25 @@ class SudokuSquare():
 
         Parameters: 
             valtoclear (int): the numeric value to remove from the list in .possible_values.  If the valtoclear is not included in .possible_values, the function does nothing.
+
+        Returns: Nothing.
         """
         if valtoclear in self.possible_values:
             self.possible_values.remove(valtoclear)
+
+    def getstate(self):
+        """
+        The function to return the .value property if it is not 'None', otherwise return the .possible_values property.
+
+        Parameters: None.
+        Returns: a string containing either the .valueproperty or a set of .possible_values enclosed in square brackets
+        """
+        if self.value is None:
+            s="["
+            for x  in self.possible_values:
+                s+=str(x)
+            s+="]"
+            return s
+        else:
+            return str(self.value)
 
