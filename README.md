@@ -31,3 +31,12 @@ This will create a blank grid of 81 squares.  You can populate the known values 
 or using a list of \[cellindex, value\] pairs:
 
     myboard.setcellvalues(lindexvalues)
+
+Note that the gameboard keeps track of all possible values for each cell, and updates this information each time any change is made to a cell.
+
+Once the gameboard has been populated with the initial values, the following functions will provide insight into the status of the board:
+
+    myboard.countsolvedcells() - this will tell you how many cells have a value set
+    myboard.displaycells() - this will output the cell index value, the column number, the row number, and either the value or the possible values for each cell.
+    myboard.gdisplay() - this will display the board status in graphical format.  
+
